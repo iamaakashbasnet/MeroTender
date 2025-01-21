@@ -1,12 +1,13 @@
+@using MeroTender.Data
 @using Microsoft.AspNetCore.Identity
-@inject UserManager<IdentityUser> UserManager
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Dashboard";
     var user = await UserManager.GetUserAsync(User);
-    var username = user?.UserName;
+    var fullname = user?.FirstName + user?.LastName;
 }
 
 <div class="bg-body-tertiary p-5 rounded">
     <h1>Dashboard</h1>
-    <p class="lead">Welcome @username to MeroTender dashboard!</p>
+    <p class="lead">Welcome @fullname to MeroTender dashboard!</p>
 </div>
