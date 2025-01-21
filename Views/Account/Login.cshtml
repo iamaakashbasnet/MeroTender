@@ -1,0 +1,38 @@
+@model UserLoginModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="d-flex align-items-center">
+    <div class="form-signin w-100 m-auto text-center">
+        @Html.ValidationSummary()
+        <form method="POST">
+            <img class="mb-4" src="~/favicon.png" alt="" width="72">
+            <div class="form-floating">
+                @* @Html.TextBoxFor(m => m.Email, new { placeholder = "Email address", @class = "form-control", @id = "email", type="email" }) *@
+                <input
+                    type="email"
+                    id="email"
+                    name="Email"
+                    class="form-control"
+                    placeholder="Email address"
+                    value="@Model.Email"/>
+                <label htmlFor="email">Email address</label>
+            </div>
+            <div class="form-floating">
+                @* @Html.TextBoxFor(m => m.Password, new { placeholder = "Password", @class = "form-control", @id = "password", type = "password" }) *@
+                <input
+                    type="password"
+                    id="password"
+                    name="Password"
+                    class="form-control"
+                    placeholder="Password"
+                    value="@Model.Password"/>
+                <label htmlFor="password">Password</label>
+            </div>
+            <br/>
+            <button class="btn btn-primary w-100 py-2" type="submit">Login</button>
+        </form>
+    </div>
+</div>

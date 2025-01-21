@@ -26,12 +26,21 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                        <li class="nav-item">
-                            <a class="nav-link">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link">Signup</a>
-                        </li>
+                        @if (User.Identity is { IsAuthenticated: true })
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Signup">Signup</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -40,6 +49,13 @@
 
     <div class="container">
         <main role="main" class="pb-3">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
             @RenderBody()
         </main>
     </div>
