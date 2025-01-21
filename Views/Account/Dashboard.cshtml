@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Dashboard";
     var user = await UserManager.GetUserAsync(User);
-    var fullname = user?.FirstName + user?.LastName;
+    var fullname = user?.FirstName + ' ' + user?.LastName;
 }
 
 <div class="bg-body-tertiary p-5 rounded">
