@@ -31,7 +31,7 @@ public class AccountController(UserManager<IdentityUser> userManager, SignInMana
 
         var user = new IdentityUser
         {
-            UserName = request.Email,
+            UserName = request.Username,
             Email = request.Email,
             EmailConfirmed = true,
         };
@@ -43,6 +43,7 @@ public class AccountController(UserManager<IdentityUser> userManager, SignInMana
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+
             return View(request);
         }
 
@@ -63,33 +64,43 @@ public class AccountController(UserManager<IdentityUser> userManager, SignInMana
             return View(request);
         }
 
-        var user = await userManager.FindByEmailAsync(request.Email);
+        // Find the user by email or username
+        var user = await userManager.FindByEmailAsync(request.EmailOrUsername)
+                   ?? await userManager.FindByNameAsync(request.EmailOrUsername);
+
         if (user == null || !await userManager.CheckPasswordAsync(user, request.Password))
         {
             ModelState.AddModelError("message", "Invalid credentials");
             return View(request);
         }
 
+        // Check if the email is confirmed
         if (!user.EmailConfirmed)
         {
             ModelState.AddModelError("message", "Email not confirmed yet");
             return View(request);
         }
 
-        var signInResult = await signInManager.PasswordSignInAsync(request.Email, request.Password, true, true);
+        // Attempt to sign in with the user's username (email won't work for PasswordSignInAsync)
+        var signInResult = await signInManager.PasswordSignInAsync(user.UserName, request.Password, true, true);
+
         if (!signInResult.Succeeded)
         {
             if (signInResult.IsLockedOut)
             {
                 return View("AccountLocked");
             }
+
             ModelState.AddModelError("message", "Invalid login attempt");
             return View(request);
         }
 
+        // Add a custom claim, if required
         await userManager.AddClaimAsync(user, new Claim("UserRole", "Admin"));
+
         return RedirectToAction("Dashboard");
     }
+
 
     public async Task<IActionResult> Logout()
     {

@@ -12,13 +12,13 @@
             <div class="form-floating">
                 @* @Html.TextBoxFor(m => m.Email, new { placeholder = "Email address", @class = "form-control", @id = "email", type="email" }) *@
                 <input
-                    type="email"
-                    id="email"
-                    name="Email"
+                    type="text"
+                    id="EmailOrUsername"
+                    name="EmailOrUsername"
                     class="form-control"
                     placeholder="Email address"
-                    value="@Model.Email"/>
-                <label htmlFor="email">Email address</label>
+                    value="@Model.EmailOrUsername"/>
+                <label htmlFor="email">Email or Username</label>
             </div>
             <div class="form-floating">
                 @* @Html.TextBoxFor(m => m.Password, new { placeholder = "Password", @class = "form-control", @id = "password", type = "password" }) *@

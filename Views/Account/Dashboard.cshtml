@@ -1,8 +1,12 @@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
 @{
     ViewData["Title"] = "Dashboard";
+    var user = await UserManager.GetUserAsync(User);
+    var username = user?.UserName;
 }
 
 <div class="bg-body-tertiary p-5 rounded">
     <h1>Dashboard</h1>
-    <p class="lead">Welcome to MeroTender Dashboard</p>
+    <p class="lead">Welcome @username to MeroTender dashboard!</p>
 </div>
