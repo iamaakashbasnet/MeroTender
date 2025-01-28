@@ -15,4 +15,8 @@ public class Applicant
     public required string CompanyEmail { get; set; }
 
     public required float  BiddingRate { get; set; }
+
+    // One-to-many relation with Project
+    public Guid ProjectId { get; set; }
+    public Project Project { get; set; }
 }
